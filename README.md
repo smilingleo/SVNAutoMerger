@@ -23,14 +23,15 @@ How to Use
 The philosophy is 'convention over configuration', so you need to create fold structure as below.
 
 1. create a folder,  say `your_path`, as base dir.
-2. check out your own branches of 'framework' and 'webapp' as subfolders (make sure your svn credential is stored)
+2. check out your own branches of `framework` and `webapp` as subfolders (make sure your svn credential is stored)
 3. put this script under base dir `your_path`, now, the fold structure would be:
 
+```
     ./your_path
         |___framework/
         |___webapp/
         |___auto_merger.sh
-
+```
 4. add a cron job to trigger the script periodically, for example: 
 
     crontab -e
