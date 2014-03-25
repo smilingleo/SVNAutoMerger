@@ -7,7 +7,7 @@ SCRIPT=$(readlink -f "$0")
 BASE_DIR=$(dirname "$SCRIPT")
 
 # email address to send the conflict notification to
-RECIPIENT="wei.liu@zuora.com"
+RECIPIENT="email@test.com"
 
 # default main branch name
 TRUNK="Main"
@@ -18,10 +18,11 @@ function printUsage
 
 Automatic merge tool.
 
-Usage: $0 -m wei.liu@zuora.com
+Usage: $0 -m wei.liu@zuora.com -t Main
 
 Options:
     -m: email address, the recipient when conflicts are detected.
+    -t: trunk name, default to 'Main'
 
 
 Before use this command, read the following how-to:
@@ -39,7 +40,7 @@ Before use this command, read the following how-to:
 
     4. add a cron job to trigger the script periodically, for example: 
       > crontab -e
-        0 */4 * * * ~/data_access/auto_merger.sh -m wei.liu@zuora.com 2>&1 > ~/data_access/merge.log        
+        0 */4 * * * ~/data_access/auto_merger.sh -m email@test.com 2>&1 > ~/data_access/merge.log        
 
 Enjoy!!!
 
