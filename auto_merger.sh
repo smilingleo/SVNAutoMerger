@@ -1,7 +1,5 @@
 #! /bin/sh
 
-#
-
 # Your script full path
 SCRIPT=$(readlink -f "$0")
 
@@ -10,6 +8,9 @@ BASE_DIR=$(dirname "$SCRIPT")
 
 # email address to send the conflict notification to
 RECIPIENT="wei.liu@zuora.com"
+
+# default main branch name
+TRUNK="Main"
 
 function printUsage
 {
@@ -46,10 +47,13 @@ __Usage
 }
 
 # parse command parameters.
-while getopts "m:" opt; do
+while getopts "m:t:" opt; do
     case $opt in
         m)
             RECIPIENT=$OPTARG
+            ;;
+        t)
+            TRUNK=$OPTARG
             ;;
         \?)
             printUsage
@@ -129,7 +133,7 @@ for _dir in $(ls -d */); do
   MAIN_BASE_BRANCH=`svn info | grep '^URL:' | cut -d ' ' -f 2 | awk -F/ '{print $NF}'`
   
   # merge `main` branch with your own branch into working copy
-  svn merge --accept postpone ${MAIN_BASE_BRANCH}/ZuoraPanda3 ${BASE_DIR}/$DIR_ > ${BASE_DIR}/last_merge.log
+  svn merge --accept postpone ${MAIN_BASE_BRANCH}/$TRUNK ${BASE_DIR}/$DIR_ > ${BASE_DIR}/last_merge.log
   
   # after merge, check if there are conflicts
   detectConflict
