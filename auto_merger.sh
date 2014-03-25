@@ -34,11 +34,11 @@ Before use this command, read the following how-to:
       ./data_access
            |___framework/
            |___webapp/
-           |___auto-merge.sh
+           |___auto_merger.sh
 
     4. add a cron job to trigger the script periodically, for example: 
       > crontab -e
-        0 */4 * * * ~/data_access/auto-merge.sh -m wei.liu@zuora.com 2>&1 > ~/data_access/merge.log        
+        0 */4 * * * ~/data_access/auto_merger.sh -m wei.liu@zuora.com 2>&1 > ~/data_access/merge.log        
 
 Enjoy!!!
 
