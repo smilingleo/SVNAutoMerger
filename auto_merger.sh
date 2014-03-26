@@ -141,7 +141,7 @@ for _dir in $(ls -d */); do
   
   # for content and tree conflicts, you will be notified.
   if [ $conflict -eq 1 -o $conflict -eq 7 ]; then
-    echo '${flag_}' | mail -s 'auto-merge report: there is a conflict' ${RECIPIENT}
+    echo '${conflict}' | mail -s 'auto-merge report: there is a conflict' ${RECIPIENT}
     exit
   elif [ $conflict -eq 2 ]; then
     # resolve directory conflict
@@ -149,7 +149,7 @@ for _dir in $(ls -d */); do
   fi
 
   # commit the change if everything is good.
-  svn commit -m 'merge updagte from main automatically' --force-log ${BASE_DIR}/$DIR_
+  svn commit -m 'merge update from main automatically' --force-log ${BASE_DIR}/$DIR_
   
 done
 
