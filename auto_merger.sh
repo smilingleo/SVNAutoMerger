@@ -124,9 +124,9 @@ for _dir in $(ls -d */); do
   detectConflict
   
   # for content and tree conflicts, you will be notified.
-  content_c=$conflict%10
-  prop_c=$conflict/10%10
-  tree_c=$conflict/100
+  let content_c=$conflict%10
+  let prop_c=$conflict/10%10
+  let tree_c=$conflict/100
 
   if [ $content_c -gt 0 -o $tree_c -gt 0 ]; then
     echo '${conflict}' | mail -s 'auto-merge report: there is a conflict' ${RECIPIENT}
