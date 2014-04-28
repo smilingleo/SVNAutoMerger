@@ -77,21 +77,20 @@ function detectConflict()
     for items in `svn status | awk '{print $1}'`
     do
         flag1=`echo $items | cut -b 1`
+        flag2=`echo $items | cut -b 2`
+        flag7=`echo $items | cut -b 7`
+
         if [ "$flag1" = "C" ]; then
             echo 'content conflict found'
-	    conflict=1
-        fi
+	    let conflict=1
 
-        flag2=`echo $items | cut -b 2`
-        if [ "$flag2" = "C" ]; then
+        elif [ "$flag2" = "C" ]; then
             echo 'directory conflict found'
-	    conflict=2
-	fi
+	    let conflict=$conflict+10
 
-        flag7=`echo $items | cut -b 7`
-        if [ "$flag7" = "C" ]; then
+        elif [ "$flag7" = "C" ]; then
             echo 'tree conflict found'
-	    conflict=7
+	    let conflict=$conflict+100
 	fi
     done
 }
@@ -125,10 +124,14 @@ for _dir in $(ls -d */); do
   detectConflict
   
   # for content and tree conflicts, you will be notified.
-  if [ $conflict -eq 1 -o $conflict -eq 7 ]; then
+  content_c=$conflict%10
+  prop_c=$conflict/10%10
+  tree_c=$conflict/100
+
+  if [ $content_c -gt 0 -o $tree_c -gt 0 ]; then
     echo '${conflict}' | mail -s 'auto-merge report: there is a conflict' ${RECIPIENT}
     exit
-  elif [ $conflict -eq 2 ]; then
+  elif [ $prop_c -gt 0 ]; then
     # resolve directory conflict
     svn resolve -R --accept working .
   fi
