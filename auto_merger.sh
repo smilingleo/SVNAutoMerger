@@ -77,19 +77,19 @@ function detectConflict()
     for items in `svn status | awk '{print $1}'`
     do
         flag1=`echo $items | cut -b 1`
-        if [ $flag1 == 'C' ]; then
+        if [ "$flag1" = "C" ]; then
             echo 'content conflict found'
 	    conflict=1
         fi
 
         flag2=`echo $items | cut -b 2`
-        if [ $flag2 == 'C' ]; then
+        if [ "$flag2" = "C" ]; then
             echo 'directory conflict found'
 	    conflict=2
 	fi
 
         flag7=`echo $items | cut -b 7`
-        if [ $flag7 == 'C' ]; then
+        if [ "$flag7" = "C" ]; then
             echo 'tree conflict found'
 	    conflict=7
 	fi
