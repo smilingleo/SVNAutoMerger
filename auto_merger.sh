@@ -74,41 +74,26 @@ conflict=0
 
 function detectConflict()
 {
-    local c1=`svn status | grep 'C ' | cut -b 1`
-    if [ ${#c1[@]} -gt 0 ]; then
-        for c in $c1 
-        do  
-            if [ "$c" != "" ]; then
-                echo 'content conflict found'
-                conflict=1
-                return
-            fi  
-        done
-    fi
+    for items in `svn status | awk '{print $1}'`
+    do
+        flag1=`echo $items | cut -b 1`
+        if [ $flag1 == 'C' ]; then
+            echo 'content conflict found'
+	    conflict=1
+        fi
 
-    local c7=`svn status | grep 'C ' | cut -b 7`
-    if [ ${#c7[@]} -gt 0 ]; then
-        for c in $c7 
-        do  
-            if [ "$c" != "" ]; then
-                echo 'tree conflict found'
-                conflict=7
-                return
-            fi  
-        done
-    fi
+        flag2=`echo $items | cut -b 2`
+        if [ $flag2 == 'C' ]; then
+            echo 'directory conflict found'
+	    conflict=2
+	fi
 
-    local c2=`svn status | grep 'C ' | cut -b 2`
-    if [ ${#c2[@]} -gt 0 ]; then
-        for c in $c2 
-        do  
-            if [ "$c" != "" ]; then
-                echo 'directory conflict found'
-                conflict=2
-                return
-            fi  
-        done
-    fi
+        flag7=`echo $items | cut -b 7`
+        if [ $flag7 == 'C' ]; then
+            echo 'tree conflict found'
+	    conflict=7
+	fi
+    done
 }
 
 # iterate all subfolders of base dir.
